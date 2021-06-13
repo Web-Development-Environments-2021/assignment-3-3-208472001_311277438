@@ -25,12 +25,64 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
+
+      <b-form-group
+      id="input-group-firstName"
+      label-cols-sm="3"
+      label="First Name:"
+      label-for="firstName"
+      >
+      <b-form-input
+          id="firstName"
+          type="text"
+          :state="validateState('firstName')"
+        ></b-form-input>
+          <b-form-invalid-feedback v-if="!$v.form.firstName.required">
+          First Name is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+     <b-form-group
+      id="input-group-lastName"
+      label-cols-sm="3"
+      label="Last Name:"
+      label-for="lastName"
+      >
+      <b-form-input
+          id="lastName"
+          type="text"
+          :state="validateState('lastName')"
+        ></b-form-input>
+          <b-form-invalid-feedback v-if="!$v.form.lastName.required">
+          Last Name is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+      id="input-group-email"
+      label-cols-sm="3"
+      label="Email:"
+      label-for="email"
+      >
+      <b-form-input
+          id="email"
+          type="text"
+          :state="validateState('email')"
+        ></b-form-input>
+          <b-form-invalid-feedback v-if="!$v.form.email.required">
+          Email is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+
+
       <b-form-group
         id="input-group-country"
         label-cols-sm="3"
         label="Country:"
         label-for="country"
       >
+      
         <b-form-select
           id="country"
           v-model="$v.form.country.$model"
@@ -89,6 +141,23 @@
           The confirmed password is not equal to the original password
         </b-form-invalid-feedback>
       </b-form-group>
+
+            <!-- <b-form-group
+      id="input-group-email"
+      label-cols-sm="3"
+      label="Email:"
+      label-for="email"
+      >
+      <b-form-input
+          id="email"
+          type="text"
+          :state="validateState('email')"
+        ></b-form-input>
+          <b-form-invalid-feedback v-if="!$v.form.email.required">
+          Email is required
+        </b-form-invalid-feedback>
+      </b-form-group> -->
+
 
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button
@@ -156,9 +225,6 @@ export default {
         length: (u) => minLength(3)(u) && maxLength(8)(u),
         alpha
       },
-      country: {
-        required
-      },
       password: {
         required,
         length: (p) => minLength(5)(p) && maxLength(10)(p)
@@ -166,7 +232,22 @@ export default {
       confirmedPassword: {
         required,
         sameAsPassword: sameAs("password")
-      }
+      },
+      firstName: {
+        required
+      },
+      lastName: {
+        required
+      },
+      email: {
+        required
+      },
+      country: {
+        required
+      },
+      image: {
+        required
+      },
     }
   },
   mounted() {
@@ -182,10 +263,15 @@ export default {
     async Register() {
       try {
         const response = await this.axios.post(
-          "https://test-for-3-2.herokuapp.com/user/Register",
+          "http://localhost:3000/Register",
           {
             username: this.form.username,
-            password: this.form.password
+            password: this.form.password,
+            email:  this.form.email,
+            firstName: this.form.firstName,
+            lastName: this.form.lastName,
+            country: this.form.country,
+            imageUrl: this.form.image
           }
         );
         this.$router.push("/login");
