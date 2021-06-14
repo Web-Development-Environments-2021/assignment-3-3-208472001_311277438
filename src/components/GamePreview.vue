@@ -1,16 +1,16 @@
 <template>
-  <div class="game-preview">
-    <div :title="id" class="game-title">
-      <b>Game Id:</b> {{ id }}
+    <div class="game-preview">
+      <div :title="id" class="game-title">
+        <b>Game Id:</b> {{ id }}
+      </div>
+      <ul class="game-content">
+        <li> host: {{ hostTeam }}</li>
+        <li> guest: {{ guestTeam }}</li>
+        <li> date: {{ date }}</li>
+        <li> time: {{ hour }}</li>
+        <li> field: {{ field }}</li>
+      </ul>
     </div>
-    <ul class="game-content">
-      <li> host: {{ hostTeam }}</li>
-      <li> guest: {{ guestTeam }}</li>
-      <li> date: {{ date }}</li>
-      <li> time: {{ hour }}</li>
-      <li> field: {{ field }}</li>
-    </ul>
-  </div>
 </template>
 
 <script>
@@ -41,10 +41,11 @@ export default {
         type: String,
         required: true
       }
-  }, 
-  mounted(){
-    console.log("game preview mounted")
-  } 
+  },
+
+  // mounted(){
+  //   console.log("game preview mounted")
+  // }
 };
 </script>
 

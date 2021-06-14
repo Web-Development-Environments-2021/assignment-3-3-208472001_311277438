@@ -69,8 +69,8 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
 
 const shared_data = {
-    // username: localStorage.username,
-    username: undefined,
+    username: localStorage.username,
+    // username: undefined,
     login(username) {
       localStorage.setItem("username", username);
       this.username = username;
@@ -80,7 +80,7 @@ const shared_data = {
       console.log("logout");
       localStorage.removeItem("username");
       this.username = undefined;
-    }
+    },
   };
 
 
@@ -99,7 +99,7 @@ const shared_data = {
 //     this.username = undefined;
 //   }
 // };
-console.log(shared_data);
+// console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
 
 new Vue({

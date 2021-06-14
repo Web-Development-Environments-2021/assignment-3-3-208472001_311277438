@@ -40,7 +40,7 @@ export default {
   text-align:center;
 }
 .blocks{
-  display:inline;
+  float: left;
 }
 
 </style>

@@ -28,6 +28,21 @@ const routes = [
     component: () => import("./pages/BeforeSearchPage")
   },
   {
+    path: "/About",
+    name: "About",
+    component: () => import("./pages/About")
+  },
+  {
+    path: "/CurrentStageGames",
+    name: "CurrentStageGames",
+    component: () => import("./pages/CurrentStageGames")
+  },
+  {
+    path: "/Manager",
+    name: "Manager",
+    component: () => import("./pages/Manager")
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound
