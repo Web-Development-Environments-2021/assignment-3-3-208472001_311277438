@@ -1,10 +1,14 @@
 r<template>
   <div class="container">
-    <h1 class="title">Main Page</h1>
-    <LoginPage v-if="!$root.store.username"></LoginPage>
-    <FavoriteGames v-else></FavoriteGames>
-    <LeagueInfo></LeagueInfo>
-  </div>
+    <h1 class="title">Main Page</h1>    
+    <div id="block_container">
+    <div class="blocks"><LeagueInfo></LeagueInfo></div>
+    <div class="blocks">
+      <LoginPage v-if="!$root.store.username"></LoginPage>
+      <FavoriteGames v-else></FavoriteGames>
+    </div>
+  </div>  
+</div>
 </template>
 
 <script>
@@ -32,4 +36,11 @@ export default {
   pointer-events: none;
   cursor: default;
 }
+#block_container{
+  text-align:center;
+}
+.blocks{
+  display:inline;
+}
+
 </style>

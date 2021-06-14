@@ -69,19 +69,36 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
 
 const shared_data = {
-  // username: localStorage.username,
-  username: "hilla",
-  login(username) {
-    localStorage.setItem("username", username);
-    this.username = username;
-    console.log("login", this.username);
-  },
-  logout() {
-    console.log("logout");
-    localStorage.removeItem("username");
-    this.username = undefined;
-  }
-};
+    // username: localStorage.username,
+    username: undefined,
+    login(username) {
+      localStorage.setItem("username", username);
+      this.username = username;
+      console.log("login", this.username);
+    },
+    logout() {
+      console.log("logout");
+      localStorage.removeItem("username");
+      this.username = undefined;
+    }
+  };
+
+
+
+// const shared_data = {
+//   // username: localStorage.username,
+//   username: "hilla",
+//   login(username) {
+//     localStorage.setItem("username", username);
+//     this.username = username;
+//     console.log("login", this.username);
+//   },
+//   logout() {
+//     console.log("logout");
+//     localStorage.removeItem("username");
+//     this.username = undefined;
+//   }
+// };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
 
