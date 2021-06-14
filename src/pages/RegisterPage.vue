@@ -35,10 +35,11 @@
       <b-form-input
           id="firstName"
           type="text"
+          v-model="$v.form.firstName.$model"
           :state="validateState('firstName')"
         ></b-form-input>
           <b-form-invalid-feedback v-if="!$v.form.firstName.required">
-          First Name is required
+          First name is required
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -51,10 +52,11 @@
       <b-form-input
           id="lastName"
           type="text"
+          v-model="$v.form.lastName.$model"
           :state="validateState('lastName')"
         ></b-form-input>
           <b-form-invalid-feedback v-if="!$v.form.lastName.required">
-          Last Name is required
+          Last name is required
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -67,13 +69,17 @@
       <b-form-input
           id="email"
           type="text"
+          v-model="$v.form.email.$model"
           :state="validateState('email')"
         ></b-form-input>
           <b-form-invalid-feedback v-if="!$v.form.email.required">
           Email is required
         </b-form-invalid-feedback>
+          <b-form-invalid-feedback
+          v-else-if="!$v.form.email.style">
+          Email is not valid
+        </b-form-invalid-feedback>
       </b-form-group>
-
 
 
       <b-form-group
@@ -118,6 +124,11 @@
         >
           Have length between 5-10 characters long
         </b-form-invalid-feedback>
+        <b-form-invalid-feedback
+          v-else-if="!$v.form.password.style"
+        >
+          Password must contain at least one digit and one special character
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
@@ -142,21 +153,26 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-            <!-- <b-form-group
-      id="input-group-email"
+            <b-form-group
+      id="input-group-image"
       label-cols-sm="3"
-      label="Email:"
-      label-for="email"
+      label="Image:"
+      label-for="image"
       >
       <b-form-input
-          id="email"
+          id="image"
           type="text"
-          :state="validateState('email')"
+          v-model="$v.form.image.$model"
+          :state="validateState('image')"
         ></b-form-input>
-          <b-form-invalid-feedback v-if="!$v.form.email.required">
-          Email is required
+          <b-form-invalid-feedback v-if="!$v.form.image.required">
+          Image is required
         </b-form-invalid-feedback>
-      </b-form-group> -->
+        <b-form-invalid-feedback
+          v-else-if="!$v.form.image.style">
+          Image is not valid
+        </b-form-invalid-feedback>
+      </b-form-group>
 
 
       <b-button type="reset" variant="danger">Reset</b-button>
@@ -196,7 +212,7 @@ import {
   maxLength,
   alpha,
   sameAs,
-  email
+  email,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -211,6 +227,7 @@ export default {
         password: "",
         confirmedPassword: "",
         email: "",
+        image: "",
         submitError: undefined
       },
       countries: [{ value: null, text: "", disabled: true }],
@@ -227,7 +244,8 @@ export default {
       },
       password: {
         required,
-        length: (p) => minLength(5)(p) && maxLength(10)(p)
+        length: (p) => minLength(5)(p) && maxLength(10)(p),
+        style: v => /^(?=.*[0-9])(?=.*[@#$%^&+=!])/.test(v)
       },
       confirmedPassword: {
         required,
@@ -240,13 +258,16 @@ export default {
         required
       },
       email: {
-        required
+        required,
+        style: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)
       },
       country: {
         required
       },
       image: {
-        required
+        required,
+        style: (v) => /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/.test(v)
+        //example: "https://cloudinary.com/"
       },
     }
   },
@@ -275,9 +296,9 @@ export default {
           }
         );
         this.$router.push("/login");
-        // console.log(response);
       } catch (err) {
-        console.log(err.response);
+        alert(err.response.data);
+        // alert(err.response.request.status);
         this.form.submitError = err.response.data.message;
       }
     },

@@ -23,6 +23,11 @@ const routes = [
     component: () => import("./pages/SearchPage")
   },
   {
+    path: "/BeforeSearch",
+    name: "BeforeSearch",
+    component: () => import("./pages/BeforeSearchPage")
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound
