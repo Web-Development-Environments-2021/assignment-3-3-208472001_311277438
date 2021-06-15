@@ -1,6 +1,5 @@
 <template>
   <div class="search">
-
     <div v-if="this.start">
     <h1 class="title">Search Page</h1>
     If you have a player/coach/team id,
