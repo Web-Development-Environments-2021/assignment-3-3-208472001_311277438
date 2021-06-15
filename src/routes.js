@@ -18,14 +18,19 @@ const routes = [
     component: () => import("./pages/LoginPage")
   },
   {
-    path: "/search",
-    name: "search",
-    component: () => import("./pages/SearchPage")
+    path: "/CoachPage",
+    name: "CoachPage",
+    component: () => import("./pages/CoachPersonalPage")
   },
   {
-    path: "/BeforeSearch",
-    name: "BeforeSearch",
-    component: () => import("./pages/BeforeSearchPage")
+    path: "/TeamPage",
+    name: "TeamPage",
+    component: () => import("./pages/TeamHomePage")
+  },
+  {
+    path: "/Search",
+    name: "Search",
+    component: () => import("./pages/SearchPage")
   },
   {
     path: "/About",

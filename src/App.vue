@@ -6,7 +6,7 @@
         <!-- left side -->
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-          <b-nav-item :to="{ name: 'BeforeSearch' }">Search</b-nav-item>
+          <b-nav-item :to="{ name: 'Search' }">Search</b-nav-item>
           <b-nav-item :to="{ name: 'stageGames' }">stageGames</b-nav-item>
           <b-nav-item :to="{ name: 'About' }">About</b-nav-item>
           </b-navbar-nav>
@@ -26,7 +26,7 @@
           <!-- left side -->
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item :to="{ name: 'BeforeSearch' }">Search</b-nav-item>
+              <b-nav-item :to="{ name: 'Search' }">Search</b-nav-item>
               <b-nav-item :to="{ name: 'CurrentStageGames' }">Current stage games</b-nav-item>
               <b-nav-item :to="{ name: 'About' }">About</b-nav-item>
               <b-nav-item-dropdown right>
