@@ -20,7 +20,7 @@ export default {
     GamePreview
   }, 
   data() {
-    this.updateGames();
+    // this.updateGames();
     return {
       games: [
         {

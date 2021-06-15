@@ -50,22 +50,22 @@ export default {
   },
    methods: {
     async getDetails() {
-      const response = await this.axios.get(
-          "http://localhost:3000/league/getDetails",
-        );
-      this.leagueName = response.data.league_name;
-      this.season = response.data.current_season_name;
-      this.stage = response.data.current_stage_name;
-      this.nextgame = response.data.nextgame[0];
-      const response2 = await this.axios.get(
-          `http://localhost:3000//teamDetails/${this.nextgame.hometeamID}`,
-        );
+      // const response = await this.axios.get(
+      //     "http://localhost:3000/league/getDetails",
+      //   );
+      // this.leagueName = response.data.league_name;
+      // this.season = response.data.current_season_name;
+      // this.stage = response.data.current_stage_name;
+      // this.nextgame = response.data.nextgame[0];
+      // const response2 = await this.axios.get(
+      //     `http://localhost:3000//teamDetails/${this.nextgame.hometeamID}`,
+      //   );
       
-      this.date = this.nextgame.gamedate;
-      this.hour = this.nextgame.gametime;
-      this.hostTeam = this.nextgame.hometeamID;
-      this.guestTeam = this.nextgame.awayteamID;
-      this.field = this.field;
+      // this.date = this.nextgame.gamedate;
+      // this.hour = this.nextgame.gametime;
+      // this.hostTeam = this.nextgame.hometeamID;
+      // this.guestTeam = this.nextgame.awayteamID;
+      // this.field = this.field;
     },
   }
 };

@@ -245,7 +245,7 @@ export default {
       password: {
         required,
         length: (p) => minLength(5)(p) && maxLength(10)(p),
-        style: v => /^(?=.*[0-9])(?=.*[@#$%^&+=!])/.test(v)
+        style: v => /^(?=.*[0-9])(?=.*[@#$%^&*()-+=!])/.test(v)
       },
       confirmedPassword: {
         required,
