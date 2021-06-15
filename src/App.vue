@@ -31,7 +31,7 @@
               <b-nav-item :to="{ name: 'About' }">About</b-nav-item>
               <b-nav-item-dropdown right>
                 <template #button-content>Personal</template>
-                <b-dropdown-item href="#">Favorites</b-dropdown-item>
+                <b-dropdown-item :to="{ name: 'FavoriteGames' }">Favorite games</b-dropdown-item>
                 <b-dropdown-item v-if="$root.store.username == 'amit'" :to="{ name: 'Manager' }">Manager options</b-dropdown-item>
                 <b-dropdown-item v-on:click="Logout" href="#">Log Out</b-dropdown-item>
               </b-nav-item-dropdown>

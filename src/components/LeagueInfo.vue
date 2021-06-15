@@ -55,18 +55,19 @@ export default {
       this.season = response.data.current_season_name;
       this.stage = response.data.current_stage_name;
       this.nextgame = response.data.nextgame[0];
-      const response2 = await this.axios.get(
-          `http://localhost:3000/teams/teamDetails/${this.nextgame.hometeamID}`,
-        );
-      const response3 = await this.axios.get(
-          `http://localhost:3000/teams/teamDetails/${this.nextgame.awayteamID}`,
+
+      let hostteam = await this.axios.get(
+        `http://localhost:3000/teams/teamName/${this.nextgame.hometeamID}`,
         );
 
+      let guestteam = await this.axios.get(
+        `http://localhost:3000/teams/teamName/${this.nextgame.awayteamID}`,
+        );
+      this.hostTeam = hostteam.data;
+      this.guestTeam = guestteam.data;
       this.date = this.nextgame.gamedate;
       this.hour = (this.nextgame.gametime).slice(11,19);
-      this.hostTeam = response2.data.players[0].team_name;
-      this.guestTeam = response3.data.players[0].team_name;
-      this.field = this.field;
+      this.field = this.nextgame.field;
     },
   }
 };

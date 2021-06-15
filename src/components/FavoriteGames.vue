@@ -2,7 +2,7 @@
 <div>
   <div v-if="games != []">
     <GamePreview
-      v-for="g in games"
+      v-for="g in this.games"
       :id="g.id"
       :date="g.date"
       :hour="g.hour"
@@ -62,28 +62,27 @@ export default {
           "http://localhost:3000/users/favoriteGames",
         );
         this.games = new Array(response.data.length);
-        // console.log("!111111111111");
         for(let i=0; i < response.data.length; i++){
           
-          // const response3 = await this.axios.get(
-          // `http://localhost:3000/teams/teamDetails/${response.data[i].gamedetails[0].hometeamID}`,
-          // );
-          // console.log(response5.data.players[0].team_name);
-          // const response4 = await this.axios.get(
-          // `http://localhost:3000/teams/teamDetails/${response.data[i].gamedetails[0].awayteamID}`,
-          // );
-          // console.log(response3.data.players[0].team_name);
+          let homename = await this.axios.get(
+          `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].hometeamID}`,
+          );
+          let awayname = await this.axios.get(
+          `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].awayteamID}`,
+          );
 
+          console.log(response.data[i].gamedetails[0].gameid);
           let game = {
           id: response.data[i].gamedetails[0].gameid,
-          // date: response.data[i].gamedetails[0].gamedate,
+          date: response.data[i].gamedetails[0].gamedate,
           hour: response.data[i].gamedetails[0].gametime.slice(11,19),
-          // hostTeam: response3.data.players[0].team_name,
-          // guestTeam: response4.data.players[0].team_name,
-          hostTeam: response.data[i].gamedetails[0].hometeamID,
-          guestTeam: response.data[i].gamedetails[0].awayteamID,
+          // hostTeam: response.data[i].gamedetails[0].hometeamID,
+          // guestTeam: response.data[i].gamedetails[0].awayteamID,
+          hostTeam: homename.data,
+          guestTeam: awayname.data,
           field: response.data[i].gamedetails[0].field
           }
+          console.log(game);
           this.games[i] = game;
         }
       } catch (error) {

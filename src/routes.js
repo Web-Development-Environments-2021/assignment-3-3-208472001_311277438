@@ -30,17 +30,22 @@ const routes = [
   {
     path: "/About",
     name: "About",
-    component: () => import("./pages/About")
+    component: () => import("./pages/AboutPage")
   },
   {
     path: "/CurrentStageGames",
     name: "CurrentStageGames",
-    component: () => import("./pages/CurrentStageGames")
+    component: () => import("./pages/CurrentStageGamesPage")
   },
   {
     path: "/Manager",
     name: "Manager",
-    component: () => import("./pages/Manager")
+    component: () => import("./pages/ManagerPage")
+  },
+  {
+    path: "/FavoriteGames",
+    name: "FavoriteGames",
+    component: () => import("./pages/FavoriteGamesPage")
   },
   {
     path: "*",
