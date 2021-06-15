@@ -34,38 +34,39 @@
 <script>
 export default {
   data() {
-    this.getDetails();
-    
+    //  this.getDetails();
     return {
-      leagueName: "", 
-      season: "", 
-      stage: "",
-      nextgame: "",
-      date: "",
-      hour: "",
-      hostTeam: "",
-      guestTeam: "",
-      field: ""
+      leagueName: this.leagueName, 
+      season: this.season, 
+      stage: this.stage,
+      date: this.data,
+      hour: this.hour,
+      hostTeam: this.hostTeam,
+      guestTeam: this.guestTeam,
+      field: this.field
     }; 
   },
    methods: {
     async getDetails() {
-      // const response = await this.axios.get(
-      //     "http://localhost:3000/league/getDetails",
-      //   );
-      // this.leagueName = response.data.league_name;
-      // this.season = response.data.current_season_name;
-      // this.stage = response.data.current_stage_name;
-      // this.nextgame = response.data.nextgame[0];
-      // const response2 = await this.axios.get(
-      //     `http://localhost:3000//teamDetails/${this.nextgame.hometeamID}`,
-      //   );
-      
-      // this.date = this.nextgame.gamedate;
-      // this.hour = this.nextgame.gametime;
-      // this.hostTeam = this.nextgame.hometeamID;
-      // this.guestTeam = this.nextgame.awayteamID;
-      // this.field = this.field;
+      const response = await this.axios.get(
+          "http://localhost:3000/league/getDetails",
+        );
+      this.leagueName = response.data.league_name;
+      this.season = response.data.current_season_name;
+      this.stage = response.data.current_stage_name;
+      this.nextgame = response.data.nextgame[0];
+      const response2 = await this.axios.get(
+          `http://localhost:3000/teams/teamDetails/${this.nextgame.hometeamID}`,
+        );
+      const response3 = await this.axios.get(
+          `http://localhost:3000/teams/teamDetails/${this.nextgame.awayteamID}`,
+        );
+
+      this.date = this.nextgame.gamedate;
+      this.hour = (this.nextgame.gametime).slice(11,19);
+      this.hostTeam = response2.data.players[0].team_name;
+      this.guestTeam = response3.data.players[0].team_name;
+      this.field = this.field;
     },
   }
 };
