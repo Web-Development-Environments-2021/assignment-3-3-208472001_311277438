@@ -24,6 +24,7 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin, 
+  TablePlugin,
   InputGroupPlugin
 } from "bootstrap-vue";
 [
@@ -34,6 +35,7 @@ import {
   CardPlugin,
   NavbarPlugin,
   FormSelectPlugin,
+  TablePlugin,
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin, 

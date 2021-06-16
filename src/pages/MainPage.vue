@@ -1,4 +1,4 @@
-r<template>
+<template>
   <div class="container">
     <h1 class="title">Main Page</h1>    
     <div id="block_container">
@@ -7,7 +7,7 @@ r<template>
       <LoginPage v-if="!$root.store.username"></LoginPage>
       <FavoriteGames v-else></FavoriteGames>
     </div>
-  </div>  
+  </div>
 </div>
 </template>
 
