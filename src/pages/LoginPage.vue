@@ -104,7 +104,6 @@ export default {
         this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         // axios.defaults.withCredentials = true;
-        // console.log("11");
         this.$root.store.login(this.form.username);
         this.$router.push("/");
       } catch (err) {

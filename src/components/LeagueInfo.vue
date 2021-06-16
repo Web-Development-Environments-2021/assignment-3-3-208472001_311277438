@@ -34,7 +34,7 @@
 <script>
 export default {
   data() {
-    //  this.getDetails();
+     this.getDetails();
     return {
       leagueName: this.leagueName, 
       season: this.season, 

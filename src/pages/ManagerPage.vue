@@ -34,13 +34,59 @@
       >
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
-          <p class="card-text">
-            <br />
-            Fill the following parameters to add update score to a game
-            <br /><br />
+          <br />
+          Fill the following parameters to add update score to a game
+          <br /><br />
+
+          <b-table
+            :items="this.futuregames"
+            :fields="fields"
+            :select-mode="selectMode"
+            responsive="sm"
+            ref="selectableTable"
+            selectable
+            @row-selected="onRowSelected"
+          >
+            <template v-slot:cell(hostTeam)="data">
+              <router-link :to="{ name: 'TeamPage' }">{{
+                data.value
+              }}</router-link>
+            </template>
+            <template v-slot:cell(guestTeam)="data">
+              <router-link :to="{ name: 'TeamPage' }">{{
+                data.value
+              }}</router-link>
+            </template>
+
+            <!-- Example scoped slot for select state illustrative purposes -->
+            <template #cell(selected)="{ rowSelected }">
+              <template v-if="rowSelected">
+                <span aria-hidden="true">&check;</span>
+                <span class="sr-only">Selected</span>
+              </template>
+              <template v-else>
+                <span aria-hidden="true">&nbsp;</span>
+                <span class="sr-only">Not selected</span>
+              </template>
+            </template>
+          </b-table>
+          <p><br>
+            <b-form-textarea
+              id="textarea"
+              v-model="homeeee"
+              placeholder="Home score"
+              rows="1"
+              max-rows="1"
+            ></b-form-textarea>
+            <b-button size="sm" @click="addscore">click to add score to the games</b-button>
           </p>
         </b-card>
+
       </b-collapse>
+      <br><br>
+
+
+
       <br /><br />
       <b-button v-b-toggle.collapse-1 variant="primary"
         >Click here if you want to add event to a game</b-button
@@ -102,13 +148,34 @@
 <script>
 export default {
   data() {
+    this.getfutureGames();
     return {
       minute: 2,
+      homeeee: '',
+      homescore: null,
+      awayscore: null,
       event: "Goal",
       player: 0,
+      fields: [
+        "selected",
+        "date",
+        "hour",
+        "hostTeam",
+        "guestTeam",
+        "homeGoal",
+        "awayGoal",
+        "field",
+        "stage",
+      ],
+      futuregames: this.futuregames,
+      selected: [],
+      selectMode: "single",
     };
   },
   methods: {
+    onRowSelected(items) {
+      this.selected = items;
+    },
     async submit_event() {
       try {
         const response = await this.axios.post(
@@ -120,10 +187,52 @@ export default {
             playerID: this.player,
           }
         );
-        alert()
+        alert();
         console.log("event was added successfully");
       } catch (error) {
         console.log("There problem with adding event to game");
+      }
+    },
+    async getfutureGames() {
+      try {
+        let response = await this.axios.get(
+          "http://localhost:3000/league/futuregames"
+        );
+        this.futuregames = [];
+        for (let i = 0; i < response.data.length; i++) {
+          let homename = await this.axios.get(
+            `http://localhost:3000/teams/teamName/${response.data[i].hometeamID}`
+          );
+
+          let awayname = await this.axios.get(
+            `http://localhost:3000/teams/teamName/${response.data[i].awayteamID}`
+          );
+          let game = {
+            id: response.data[i].gameID,
+            date: response.data[i].gamedate,
+            hour: response.data[i].gametime.slice(11, 19),
+            hostTeam: homename.data,
+            guestTeam: awayname.data,
+            homeGoal: "Not played",
+            awayGoal: "Not played",
+            field: response.data[i].field,
+            stage: response.data[i].stage
+          };
+          // console.log(game);
+          this.futuregames.push(game);
+        }
+      } catch (error) {
+        console.log("There are no games in the future");
+        this.games = [];
+        return this.games;
+      }
+    },
+    async addscore(){
+      try{
+        // gameId: this.selected[i].id
+        console.log(this.selected[0].id);
+      } catch(error){
+        console.log("There was a problem with adding score to that game");
       }
     },
   },

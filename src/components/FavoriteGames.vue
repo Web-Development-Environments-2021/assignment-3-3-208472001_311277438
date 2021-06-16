@@ -25,7 +25,7 @@ export default {
     GamePreview
   }, 
   data() {
-    // this.updateGames();
+    this.updateGames();
     return {
       games: this.games
         // {
@@ -61,7 +61,7 @@ export default {
         const response = await this.axios.get(
           "http://localhost:3000/users/favoriteGames",
         );
-        this.games = new Array(response.data.length);
+        this.games = [];
         for(let i=0; i < response.data.length; i++){
           
           let homename = await this.axios.get(
@@ -71,7 +71,7 @@ export default {
           `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].awayteamID}`,
           );
 
-          console.log(response.data[i].gamedetails[0].gameid);
+          // console.log(response.data[i].gamedetails[0].gameid);
           let game = {
           id: response.data[i].gamedetails[0].gameid,
           date: response.data[i].gamedetails[0].gamedate,
@@ -82,8 +82,8 @@ export default {
           guestTeam: awayname.data,
           field: response.data[i].gamedetails[0].field
           }
-          console.log(game);
-          this.games[i] = game;
+          // console.log(game);
+          this.games.push(game);
         }
       } catch (error) {
         console.log("There are no games in user favorites")

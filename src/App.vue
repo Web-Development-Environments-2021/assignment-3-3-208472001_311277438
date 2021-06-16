@@ -7,7 +7,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
           <b-nav-item :to="{ name: 'Search' }">Search</b-nav-item>
-          <b-nav-item :to="{ name: 'stageGames' }">stageGames</b-nav-item>
+          <b-nav-item :to="{ name: 'CurrentStageGames' }">stageGames</b-nav-item>
           <b-nav-item :to="{ name: 'About' }">About</b-nav-item>
           </b-navbar-nav>
           <!-- right side -->
@@ -57,7 +57,15 @@
 export default {
   name: "App",
   methods: {
-    Logout() {
+    async Logout() {
+      try {
+        const response = await this.axios.post(
+          "http://localhost:3000/Logout",
+
+        );
+      } catch(error){
+        console.log("there was a problem in the logout from server");
+      }
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
       axios.defaults.withCredentials = false;
