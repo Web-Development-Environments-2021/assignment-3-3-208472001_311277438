@@ -1,10 +1,10 @@
 <template>
   <div>
     <br /><br /><br />
-    <h3>Your favorite games are:</h3>
+    <h3>Your favorite player are:</h3>
     <br /><br />
-    <b-table id="table"
-      :items="this.games"
+    <b-table
+      :items="this.players"
       :fields="fields"
       :select-mode="selectMode"
       responsive="sm"
@@ -26,7 +26,7 @@
     </b-table>
     <p>
       <b-button size="sm" @click="removefromfavorites"
-        >click to delete this game from your favotire games</b-button
+        >click to delete this player from your favotire players</b-button
       >
     </p>
   </div>
@@ -35,10 +35,10 @@
 <script>
 export default {
   data() {
-    this.loadFavoriteGames();
+    this.loadFavoritePlayers();
     return {
-      fields: ["selected", "date", "hour", "hostTeam", "guestTeam", "field"],
-      games: this.games,
+      fields: ["selected", "full_name", "team_name", "image", "position"],
+      players: this.players,
       selected: [],
       selectMode: "single",
     };
@@ -58,15 +58,12 @@ export default {
       try {
         
         for(let i=0; i < this.selected.length; i ++){
-          console.log(this.selected[i].id);
-
           const response = await this.axios.delete(
-            "http://localhost:3000/users/favoriteGames",
+            "http://localhost:3000/users/favoritePlayers",
             {
-              gameId: this.selected[i].id
+              playerId: this.selected[i].id
             }
           );
-          console.log(response.data);
           if(response.data == "Succeeded"){
             alert("That game was successfully removed from favorites");
             this.loadFavoriteGames();
@@ -79,34 +76,24 @@ export default {
         console.log("There was a problem with deleting the game from favorites");
       }
     },
-    async loadFavoriteGames() {
+    async loadFavoritePlayers() {
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/users/favoriteGames"
+          "http://localhost:3000/users/favoritePlayers"
         );
-        this.games = [];
+        this.players = [];
         for (let i = 0; i < response.data.length; i++) {
-          let homename = await this.axios.get(
-            `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].hometeamID}`
-          );
-          let awayname = await this.axios.get(
-            `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].awayteamID}`
-          );
-
-          // console.log(response.data[i].gamedetails[0].gameid);
-          let game = {
-            id: response.data[i].gamedetails[0].gameid,
-            date: response.data[i].gamedetails[0].gamedate,
-            hour: response.data[i].gamedetails[0].gametime.slice(11, 19),
-            hostTeam: homename.data,
-            guestTeam: awayname.data,
-            field: response.data[i].gamedetails[0].field,
+          let player = {
+            id: response.data[i].player_id,
+            team_name: response.data[i].team_name,
+            full_name: response.data[i].full_name,
+            image: response.data[i].image,
+            position: response.data[i].position
           };
-          // console.log(game);
-          this.games.push(game);
+          this.players.push(player);
         }
       } catch (error) {
-        console.log("There are no games in user favorites");
+        console.log("There are no players in user favorites");
         this.games = [];
         return this.games;
       }
@@ -122,11 +109,5 @@ button {
 }
 p {
   text-align: center;
-}
-#table{
-  text-align: center;
-  /* margin-left: 5%;
-  margin-right: 10%; */
-  /* width: 90%; */
 }
 </style>

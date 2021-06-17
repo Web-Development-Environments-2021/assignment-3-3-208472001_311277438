@@ -1,10 +1,10 @@
 <template>
   <div>
     <br /><br /><br />
-    <h3>Your favorite games are:</h3>
+    <h3>Your favorite teams are:</h3>
     <br /><br />
-    <b-table id="table"
-      :items="this.games"
+    <b-table
+      :items="this.teams"
       :fields="fields"
       :select-mode="selectMode"
       responsive="sm"
@@ -26,7 +26,7 @@
     </b-table>
     <p>
       <b-button size="sm" @click="removefromfavorites"
-        >click to delete this game from your favotire games</b-button
+        >click to delete this team from your favotire teams</b-button
       >
     </p>
   </div>
@@ -35,10 +35,10 @@
 <script>
 export default {
   data() {
-    this.loadFavoriteGames();
+    this.loadFavoriteTeams();
     return {
-      fields: ["selected", "date", "hour", "hostTeam", "guestTeam", "field"],
-      games: this.games,
+      fields: ["selected", "Name", "logo"],
+      teams: this.teams,
       selected: [],
       selectMode: "single",
     };
@@ -61,9 +61,9 @@ export default {
           console.log(this.selected[i].id);
 
           const response = await this.axios.delete(
-            "http://localhost:3000/users/favoriteGames",
+            "http://localhost:3000/users/favoriteTeams",
             {
-              gameId: this.selected[i].id
+              teamId: this.selected[i].id
             }
           );
           console.log(response.data);
@@ -79,36 +79,24 @@ export default {
         console.log("There was a problem with deleting the game from favorites");
       }
     },
-    async loadFavoriteGames() {
+    async loadFavoriteTeams() {
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/users/favoriteGames"
+          "http://localhost:3000/users/favoriteTeams"
         );
-        this.games = [];
+        this.teams = [];
         for (let i = 0; i < response.data.length; i++) {
-          let homename = await this.axios.get(
-            `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].hometeamID}`
-          );
-          let awayname = await this.axios.get(
-            `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].awayteamID}`
-          );
-
-          // console.log(response.data[i].gamedetails[0].gameid);
-          let game = {
-            id: response.data[i].gamedetails[0].gameid,
-            date: response.data[i].gamedetails[0].gamedate,
-            hour: response.data[i].gamedetails[0].gametime.slice(11, 19),
-            hostTeam: homename.data,
-            guestTeam: awayname.data,
-            field: response.data[i].gamedetails[0].field,
+          let team = {
+            id: response.data[i].team_id,
+            Name: response.data[i].team_name,
+            logo: response.data[i].team_logo,
           };
-          // console.log(game);
-          this.games.push(game);
+          this.teams.push(team);
         }
       } catch (error) {
-        console.log("There are no games in user favorites");
-        this.games = [];
-        return this.games;
+        console.log("There are no teams in user favorites");
+        this.teams = [];
+        return this.teams;
       }
     },
   },
@@ -122,11 +110,5 @@ button {
 }
 p {
   text-align: center;
-}
-#table{
-  text-align: center;
-  /* margin-left: 5%;
-  margin-right: 10%; */
-  /* width: 90%; */
 }
 </style>

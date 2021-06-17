@@ -41,7 +41,7 @@
     <p>
       <b-button size="sm" @click="selectAllRows">Select all</b-button>
       <b-button size="sm" @click="clearSelected">Clear selected</b-button>
-      <b-button size="sm" @click="removefromfavorites"
+      <b-button size="sm" @click="addtofavorites"
         >click to add those games to your favotire games</b-button
       >
     </p>
@@ -124,7 +124,7 @@ export default {
     clearSelected() {
       this.$refs.selectableTable.clearSelected();
     },
-    async removefromfavorites() {
+    async addtofavorites() {
       try {
         // console.log(this.selected);
         let answer = "";
@@ -135,10 +135,7 @@ export default {
               gameId: this.selected[i].id
             }
           );
-          // if (String(response.data).slice(0,10) == "The Game a"){
-          //   console.log(str(i) + ". The game already in your favorites" + '\n');
-          //   answer += str(i) + ". The game already in your favorites" + '\n';
-          // }
+
         answer += i.toString() + ". " + response.data + '\n';
         }
         alert(answer);

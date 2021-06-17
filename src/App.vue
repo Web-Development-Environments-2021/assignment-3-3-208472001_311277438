@@ -32,6 +32,8 @@
               <b-nav-item-dropdown right>
                 <template #button-content>Personal</template>
                 <b-dropdown-item :to="{ name: 'FavoriteGames' }">Favorite games</b-dropdown-item>
+                <b-dropdown-item :to="{ name: 'FavoriteTeams' }">Favorite teams</b-dropdown-item>
+                <b-dropdown-item :to="{ name: 'FavoritePlayers' }">Favorite players</b-dropdown-item>
                 <b-dropdown-item v-if="$root.store.username == 'amit'" :to="{ name: 'Manager' }">Manager options</b-dropdown-item>
                 <b-dropdown-item v-on:click="Logout" href="#">Log Out</b-dropdown-item>
               </b-nav-item-dropdown>
@@ -42,7 +44,7 @@
                 {{$root.store.username}}
               </template>
               <b-navbar-nav>
-                <b-nav-item v-on:click="Logout" href="#">Log Out</b-nav-item>
+                <b-nav-item v-on:click="Logout">Log Out</b-nav-item>
                 <!-- <b-dropdown-item v-on:click="Logout" href="#">Log Out</b-dropdown-item> -->
               </b-navbar-nav>
             </b-navbar-nav>

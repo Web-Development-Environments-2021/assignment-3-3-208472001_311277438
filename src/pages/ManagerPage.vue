@@ -29,9 +29,10 @@
         </b-card>
       </b-collapse>
       <br /><br />
+
+
       <b-button v-b-toggle.collapse-1 variant="primary"
-        >Click here if you want to update score to previous game</b-button
-      >
+        >Click here if you want to update score to previous game</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <br />
@@ -47,16 +48,7 @@
             selectable
             @row-selected="onRowSelected"
           >
-            <template v-slot:cell(hostTeam)="data">
-              <router-link :to="{ name: 'TeamPage' }">{{
-                data.value
-              }}</router-link>
-            </template>
-            <template v-slot:cell(guestTeam)="data">
-              <router-link :to="{ name: 'TeamPage' }">{{
-                data.value
-              }}</router-link>
-            </template>
+            
 
             <!-- Example scoped slot for select state illustrative purposes -->
             <template #cell(selected)="{ rowSelected }">
@@ -83,14 +75,13 @@
         </b-card>
 
       </b-collapse>
-      <br><br>
+      
 
 
 
       <br /><br />
       <b-button v-b-toggle.collapse-1 variant="primary"
-        >Click here if you want to add event to a game</b-button
-      >
+        >Click here if you want to add event to a game</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <div class="card-text">
