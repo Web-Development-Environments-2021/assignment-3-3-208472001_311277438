@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="favorites">
     <br /><br /><br />
     <h3>Your favorite teams are:</h3>
     <br /><br />
@@ -7,6 +7,7 @@
       :items="this.teams"
       :fields="fields"
       :select-mode="selectMode"
+      
       responsive="sm"
       ref="selectableTable"
       selectable
@@ -22,6 +23,9 @@
           <span aria-hidden="true">&nbsp;</span>
           <span class="sr-only">Not selected</span>
         </template>
+      </template>
+      <template slot="[logo]" slot-scope="data">
+        <img :src="data.value" />
       </template>
     </b-table>
     <p>
@@ -57,23 +61,16 @@ export default {
       // Rows are indexed from 0, so the third row is index 2
       try {
         
-        for(let i=0; i < this.selected.length; i ++){
-          console.log(this.selected[i].id);
-
-          const response = await this.axios.delete(
-            "http://localhost:3000/users/favoriteTeams",
-            {
-              teamId: this.selected[i].id
-            }
+        let response = await this.axios.delete(
+            `http://localhost:3000/users//favorites/Game/${this.selected[i].id}`
           );
-          console.log(response.data);
+          
           if(response.data == "Succeeded"){
             alert("That game was successfully removed from favorites");
             this.loadFavoriteGames();
           }else{
             alert("There was a problem with removing this game from favorites, please try again");
           }
-      } 
 
       } catch (error) {
         console.log("There was a problem with deleting the game from favorites");
@@ -106,9 +103,9 @@ export default {
 <style>
 button {
   margin: 2%;
-  text-align: center;
 }
-p {
+#favorites{
   text-align: center;
+  padding: 5%;
 }
 </style>

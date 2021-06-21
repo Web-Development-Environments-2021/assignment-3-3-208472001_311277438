@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="favorites">
     <br /><br /><br />
     <h3>Your favorite games are:</h3>
     <br /><br />
@@ -57,23 +57,16 @@ export default {
       // Rows are indexed from 0, so the third row is index 2
       try {
         
-        for(let i=0; i < this.selected.length; i ++){
-          console.log(this.selected[i].id);
-
-          const response = await this.axios.delete(
-            "http://localhost:3000/users/favoriteGames",
-            {
-              gameId: this.selected[i].id
-            }
+          let response = await this.axios.delete(
+            `http://localhost:3000/users//favorites/Game/${this.selected[i].id}`
           );
-          console.log(response.data);
+
           if(response.data == "Succeeded"){
             alert("That game was successfully removed from favorites");
             this.loadFavoriteGames();
           }else{
             alert("There was a problem with removing this game from favorites, please try again");
           }
-      } 
 
       } catch (error) {
         console.log("There was a problem with deleting the game from favorites");
@@ -118,15 +111,10 @@ export default {
 <style>
 button {
   margin: 2%;
-  text-align: center;
 }
-p {
+
+#favorites{
   text-align: center;
-}
-#table{
-  text-align: center;
-  /* margin-left: 5%;
-  margin-right: 10%; */
-  /* width: 90%; */
+  padding: 5%;
 }
 </style>

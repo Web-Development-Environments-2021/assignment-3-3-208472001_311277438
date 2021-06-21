@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="body">
     <br /><br /><br />
     <h3>
       ----------------------------Future games----------------------------
@@ -51,30 +51,35 @@
       ----------------------------Past games----------------------------
     </h3>
     <br /><br />
-    <b-form-group label-for="table-select-mode-select" label-cols-md="4">
-    </b-form-group>
 
-    <b-table :items="this.pastgames" :fields="pastfields" responsive="sm">
+    <b-table :items="this.pastgames" :fields="pastfields" striped responsive="sm">
       <template v-slot:cell(hostTeam)="data">
-        <router-link :to="{ name: 'TeamPage' }">{{
-          data.value
-        }}</router-link>
+        <router-link :to="{ name: 'TeamPage' }">{{data.value}}</router-link>
       </template>
       <template v-slot:cell(guestTeam)="data">
-        <router-link :to="{ name: 'TeamPage' }">{{
-          data.value
-        }}</router-link>
+        <router-link :to="{ name: 'TeamPage' }">{{data.value}}</router-link>
       </template>
 
-      <!-- Example scoped slot for select state illustrative purposes -->
-      <template #cell(selected)="{ rowSelected }">
-        <template v-if="rowSelected">
-          <span aria-hidden="true">&check;</span>
-        </template>
-        <template v-else>
-          <span aria-hidden="true">&nbsp;</span>
-          <span class="sr-only">Not selected</span>
-        </template>
+      <template #cell(show_details)="row">
+        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+          {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+        </b-button>
+      </template>
+
+      <template #row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>Age 1:</b></b-col>
+            <b-col>{{ row.item.age }}</b-col>
+          </b-row>
+
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>Is Active:</b></b-col>
+            <b-col>{{ row.item.isActive }}</b-col>
+          </b-row>
+
+          <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+        </b-card>
       </template>
     </b-table>
     <br /><br />
@@ -107,6 +112,7 @@ export default {
         "awayGoal",
         "field",
         "stage",
+        "show_details"
       ],
       futuregames: this.futuregames,
       pastgames: this.pastgames,
@@ -157,6 +163,7 @@ export default {
           let awayname = await this.axios.get(
             `http://localhost:3000/teams/teamName/${response.data[i].awayteamID}`
           );
+
           let game = {
             id: response.data[i].gameID,
             date: response.data[i].gamedate,
@@ -166,7 +173,7 @@ export default {
             homeGoal: "Not played",
             awayGoal: "Not played",
             field: response.data[i].field,
-            stage: response.data[i].stage
+            stage: response.data[i].stage,
           };
           // console.log(game);
           this.futuregames.push(game);
@@ -190,6 +197,15 @@ export default {
           let awayname = await this.axios.get(
             `http://localhost:3000/teams/teamName/${response.data.past_games[i].awayteamID}`
           );
+          console.log("11111111111111111111");
+           let gameevents = await this.axios.get(
+            `http://localhost:3000/league/getEvents/${response.data[i].gameID}`
+          );
+          console.log(gameevents.data);
+
+          if (gameevents == []){
+            alert("there is a problem with the events");
+          }
 
           let game = {
             id: response.data.past_games[i].gameID,
@@ -200,7 +216,9 @@ export default {
             homeGoal: response.data.past_games[i].homeGoal,
             awayGoal: response.data.past_games[i].awayGoal,
             field: response.data.past_games[i].field,
-            stage: response.data.past_games[i].stage
+            stage: response.data.past_games[i].stage,
+            _showDetails: true,
+            age: 20
           };
           this.pastgames.push(game);
         }
@@ -227,5 +245,8 @@ template {
 }
 h3 {
   text-align: center;
+}
+#body{
+  padding: 5%;
 }
 </style>
