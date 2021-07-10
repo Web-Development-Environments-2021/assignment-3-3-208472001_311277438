@@ -48,11 +48,11 @@
 
     <b-table :items="this.pastgames" :fields="pastfields" striped responsive="sm">
       <template v-slot:cell(hostTeam)="data">
-        <a @click="redirecthome(data.value)" variant="primary">{{data.value}}</a>
+        <a @click="redirecthomepast(data.value)" variant="primary">{{data.value}}</a>
       </template>
 
       <template v-slot:cell(guestTeam)="data">
-        <a @click="redirectaway(data.value)" variant="primary">{{data.value}}</a>
+        <a @click="redirectawaypast(data.value)" variant="primary">{{data.value}}</a>
       </template>
 
       <template #cell(show_details)="row">
@@ -148,6 +148,27 @@ export default {
       for (let i=0; i < this.futuregames.length; i++) {
         if (this.futuregames[i].guestTeam == data) {
           teamId = this.futuregames[i].guestTeamID;
+            break;
+        }
+      }
+      this.$router.push({name: 'TeamHomePage', params: {teamId: teamId} });
+    },
+        async redirecthomepast(data){
+      let teamId = "";
+      for (let i=0; i < this.pastgames.length; i++) {
+        if (this.pastgames[i].hostTeam == data) {
+          teamId = this.pastgames[i].hostTeamID;
+            break;
+        }
+      }
+      this.$router.push({name: 'TeamHomePage', params: {teamId: teamId} });
+    },
+
+    async redirectawaypast(data){
+      let teamId = "";
+      for (let i=0; i < this.pastgames.length; i++) {
+        if (this.pastgames[i].guestTeam == data) {
+          teamId = this.pastgames[i].guestTeamID;
             break;
         }
       }
