@@ -18,14 +18,19 @@ const routes = [
     component: () => import("./pages/LoginPage")
   },
   {
-    path: "/CoachPage",
-    name: "CoachPage",
-    component: () => import("./pages/CoachPersonalPage")
+    path: "/PlayerPage/:playerId",
+    name: "PlayerPage",
+    component: () => import("./components/PlayerPage")
   },
   {
-    path: "/TeamPage",
-    name: "TeamPage",
-    component: () => import("./pages/TeamHomePage")
+    path: "/CoachPage/:coachId",
+    name: "CoachPage",
+    component: () => import("./components/CoachPage")
+  },
+  {
+    path: "/TeamHomePage/:teamId",
+    name: "TeamHomePage",
+    component: () => import("./components/TeamHomePage")
   },
   {
     path: "/Search",
@@ -66,7 +71,7 @@ const routes = [
     path: "*",
     name: "notFound",
     component: NotFound
-  }
+  },
 ];
 
 export default routes;
