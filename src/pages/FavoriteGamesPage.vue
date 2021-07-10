@@ -23,10 +23,19 @@
           <span class="sr-only">Not selected</span>
         </template>
       </template>
+
+      <template v-slot:cell(hostTeam)="data">
+        <a @click="redirecthome(data.value)" variant="primary">{{data.value}}</a>
+      </template>
+
+      <template v-slot:cell(guestTeam)="data">
+        <a @click="redirectaway(data.value)" variant="primary">{{data.value}}</a>
+      </template>
+
     </b-table>
     <p>
       <b-button size="sm" @click="removefromfavorites"
-        >click to delete this game from your favotire games</b-button
+        >Delete Dame Favotire</b-button
       >
     </p>
   </div>
@@ -34,8 +43,8 @@
 
 <script>
 export default {
+  
   data() {
-    this.loadFavoriteGames();
     return {
       fields: ["selected", "date", "hour", "hostTeam", "guestTeam", "field"],
       games: this.games,
@@ -43,6 +52,9 @@ export default {
       selectMode: "single",
     };
   },
+  created(){
+    this.loadFavoriteGames(); 
+    },
   methods: {
     onRowSelected(items) {
       this.selected = items;
@@ -56,10 +68,9 @@ export default {
     async removefromfavorites() {
       // Rows are indexed from 0, so the third row is index 2
       try {
-        
-          let response = await this.axios.delete(
-            `http://localhost:3000/users//favorites/Game/${this.selected[i].id}`
-          );
+          const name = "Game";
+          const response = await this.axios.delete(
+          `http://localhost:3000/users/favorites/Game/${this.selected[0].id}`);
 
           if(response.data == "Succeeded"){
             alert("That game was successfully removed from favorites");
@@ -72,18 +83,39 @@ export default {
         console.log("There was a problem with deleting the game from favorites");
       }
     },
+    async redirecthome(data){
+      let teamId = "";
+      for (let i=0; i < this.games.length; i++) {
+        if (this.games[i].hostTeam == data) {
+          teamId = this.games[i].hometeamID;
+            break;
+        }
+      }
+      this.$router.push({name: 'TeamHomePage', params: {teamId: teamId} });
+    },
+
+    async redirectaway(data){
+      let teamId = "";
+      for (let i=0; i < this.games.length; i++) {
+        if (this.games[i].guestTeam == data) {
+          teamId = this.games[i].guestTeamID;
+            break;
+        }
+      }
+      this.$router.push({name: 'TeamHomePage', params: {teamId: teamId} });
+    },
     async loadFavoriteGames() {
       try {
         const response = await this.axios.get(
           "http://localhost:3000/users/favoriteGames"
         );
-        this.games = [];
+        let allgames = [];
         for (let i = 0; i < response.data.length; i++) {
           let homename = await this.axios.get(
-            `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].hometeamID}`
+            `http://localhost:3000/teams/teamLeague/${response.data[i].gamedetails[0].hometeamID}`
           );
           let awayname = await this.axios.get(
-            `http://localhost:3000/teams/teamName/${response.data[i].gamedetails[0].awayteamID}`
+            `http://localhost:3000/teams/teamLeague/${response.data[i].gamedetails[0].awayteamID}`
           );
 
           // console.log(response.data[i].gamedetails[0].gameid);
@@ -91,13 +123,16 @@ export default {
             id: response.data[i].gamedetails[0].gameid,
             date: response.data[i].gamedetails[0].gamedate,
             hour: response.data[i].gamedetails[0].gametime.slice(11, 19),
-            hostTeam: homename.data,
-            guestTeam: awayname.data,
+            hostTeam: homename.data.name,
+            hometeamID: response.data[i].gamedetails[0].hometeamID,
+            guestTeam: awayname.data.name,
+            guestTeamID: response.data[i].gamedetails[0].awayteamID,
             field: response.data[i].gamedetails[0].field,
           };
-          // console.log(game);
-          this.games.push(game);
+          allgames.push(game);
+
         }
+        this.games = allgames;
       } catch (error) {
         console.log("There are no games in user favorites");
         this.games = [];

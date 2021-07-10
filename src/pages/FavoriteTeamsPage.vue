@@ -1,19 +1,17 @@
 <template>
   <div id="favorites">
-    <br /><br /><br />
-    <h3>Your favorite teams are:</h3>
+    <h3>Your Favorite Teams</h3>
     <br /><br />
     <b-table
       :items="this.teams"
       :fields="fields"
       :select-mode="selectMode"
-      
       responsive="sm"
       ref="selectableTable"
       selectable
       @row-selected="onRowSelected"
     >
-      <!-- Example scoped slot for select state illustrative purposes -->
+      <!-- scoped slot for select -->
       <template #cell(selected)="{ rowSelected }">
         <template v-if="rowSelected">
           <span aria-hidden="true">&check;</span>
@@ -24,13 +22,22 @@
           <span class="sr-only">Not selected</span>
         </template>
       </template>
-      <template slot="[logo]" slot-scope="data">
-        <img :src="data.value" />
+
+      <template v-slot:cell(name)="data">
+        <a @click="redirect(data.value)" variant="primary">{{data.value}}</a>
       </template>
+
+      <template v-slot:cell(logo)="{ item }">
+        <img :src="item.logo" fluid>
+      </template>
+
+      <!-- <template slot="logo">
+      <img src="https://cdn.auth0.com/blog/vuejs/vue-logo.png" alt="" width="50" height="50">
+    </template> -->
     </b-table>
     <p>
       <b-button size="sm" @click="removefromfavorites"
-        >click to delete this team from your favotire teams</b-button
+        >Delete Team From Favorites</b-button
       >
     </p>
   </div>
@@ -41,7 +48,11 @@ export default {
   data() {
     this.loadFavoriteTeams();
     return {
-      fields: ["selected", "Name", "logo"],
+      fields: [
+        { key: "selected", label: "Selected" },
+        { key: "name", label: "Name" },
+        { key: "logo", label: "Logo", image: true },
+      ],
       teams: this.teams,
       selected: [],
       selectMode: "single",
@@ -57,23 +68,35 @@ export default {
     clearSelected() {
       this.$refs.selectableTable.clearSelected();
     },
+    async redirect(data){
+      let teamId = "";
+      for (let i=0; i < this.teams.length; i++) {
+        if (this.teams[i].name == data) {
+          teamId = this.teams[i].id;
+            break;
+        }
+      }
+      this.$router.push({name: 'TeamHomePage', params: {teamId: teamId} });
+    },
     async removefromfavorites() {
       // Rows are indexed from 0, so the third row is index 2
       try {
-        
         let response = await this.axios.delete(
-            `http://localhost:3000/users//favorites/Game/${this.selected[i].id}`
-          );
-          
-          if(response.data == "Succeeded"){
-            alert("That game was successfully removed from favorites");
-            this.loadFavoriteGames();
-          }else{
-            alert("There was a problem with removing this game from favorites, please try again");
-          }
+          `http://localhost:3000/users/favorites/Team/${this.selected[0].id}`
+        );
 
+        if (response.data == "Succeeded") {
+          alert("That game was successfully removed from favorites");
+          this.loadFavoriteTeams();
+        } else {
+          alert(
+            "There was a problem with removing this team from favorites, please try again"
+          );
+        }
       } catch (error) {
-        console.log("There was a problem with deleting the game from favorites");
+        console.log(
+          "There was a problem with deleting the team from favorites"
+        );
       }
     },
     async loadFavoriteTeams() {
@@ -85,7 +108,7 @@ export default {
         for (let i = 0; i < response.data.length; i++) {
           let team = {
             id: response.data[i].team_id,
-            Name: response.data[i].team_name,
+            name: response.data[i].team_name,
             logo: response.data[i].team_logo,
           };
           this.teams.push(team);
@@ -104,7 +127,7 @@ export default {
 button {
   margin: 2%;
 }
-#favorites{
+#favorites {
   text-align: center;
   padding: 5%;
 }

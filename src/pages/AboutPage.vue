@@ -1,12 +1,12 @@
 <template>
     <div id="about">
         <div>
-            This page made by: Shahar Horovitz and Amit Yosefi
+            This page made by Shahar Horovitz and Amit Yosefi
             <br><br>
             our previous projects are:
             <br><br>
             our packman
-            <a href="https://web-development-environments-2021.github.io/Assignment2_208472001_311277438/">Packen site</a>
+            <a href="https://web-development-environments-2021.github.io/Assignment2_208472001_311277438/">Packman site</a>
             <br><br>
             our Api 3.1
             <a href="https://app.swaggerhub.com/apis-docs/amittt2/208472001_311277438/1.0.0">Api project</a>
