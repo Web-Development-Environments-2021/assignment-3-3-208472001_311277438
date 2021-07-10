@@ -1,7 +1,7 @@
 <template>
     <div class="game-preview">
       <div :title="id" class="game-title">
-        <b>Game Id:</b> {{ id }}
+        <b>Game:</b>
       </div>
       <ul class="game-content">
         <li> host: {{ hostTeam }}</li>
@@ -43,9 +43,6 @@ export default {
       }
   },
 
-  // mounted(){
-  //   console.log("game preview mounted")
-  // }
 };
 </script>
 

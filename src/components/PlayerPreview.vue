@@ -1,31 +1,37 @@
 <template>
-  <div class="player-preview">
+  <!-- <div class="player-preview">
     <div :title="id" class="player-title">
       <b>Player Id:</b> {{ playerId }}
     </div>
     <ul class="player-content">
-      <li> Fullname: {{ fullname }}</li>
+      <div @click="redirect(playerId)"> <li> Fullname: {{ fullname }}</li> </div>
       <li> Position: {{ position }}</li>
       <li> Team Name: {{ teamName }}</li>
-      <!-- <li> Common Name: {{ commonName }}</li> -->
-      <!-- <li> Nationality: {{ nationality }}</li>
-      <li> birthdate: {{ birthdate }}</li>
-      <li> birthcountry: {{ birthcountry }}</li>
-      <li> height: {{ height }}</li>
-      <li> weight: {{ weight }}</li> -->
-       <!-- <router-link to="/"> -->
-       <div @click="redirect">
+       <div @click="redirect(playerId)">
       <img :src="image" width="40%">
       </div>
     </ul>
 
+  </div> -->
+
+ <div class="card" style="width: 22em; margin-left:1em; margin-bottom:1em; display: inline-block;">
+  <img :src="image" style="width: 7rem; margin:auto;"  class="card-img-top" alt="..." @click="redirect(playerId)">
+  <div class="card-body">
+    <h5 class="card-title">Player Id: {{playerId}} </h5> 
+    <p class="card-text"> <l @click="redirect(playerId)">Fullname: {{ fullname }} </l>
+      <br>
+      Position: {{ position }}
+      <br>
+    Team Name: {{ teamName }}</p>
   </div>
+</div>
+  
 </template>
 
 <script>
 export default {
-  name: "PlayerPreview",
   data() {
+    this.player = {}
       return {
 
       };
@@ -51,39 +57,14 @@ export default {
         type: String,
         required: true
       },
-    //   commonName:
-    //   {
-    //     type: String,
-    //   },
-    //   nationality:
-    //   {
-    //     type: String,
-    //   },
-    //   birthdate:
-    //   {
-    //     type: String,
-    //   },
-    //   birthcountry:
-    //   {
-    //     type: String,
-    //   },
-    //   height:
-    //   {
-    //     type: String,
-    //   },
-    //   weight:
-    //   {
-    //     type: String,
-    //   },
   }, 
   mounted(){
     console.log("player preview mounted")
   },
   methods: {
-      redirect() {
-        //   alert("fvsvd");
-        this.$router.push({ name: 'PlayerPage' })
-      }
+      async redirect(id) {
+          this.$router.push({name: 'PlayerPage', params: { playerId: id} });
+    }
   } 
 };
 </script>
@@ -118,5 +99,10 @@ export default {
     display: block; 
     position: relative;
 } */
+
+.card-columns {
+    column-count: 4;
+  }
+
 
 </style>

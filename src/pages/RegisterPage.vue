@@ -180,7 +180,7 @@
         type="submit"
         variant="primary"
         style="width:250px;"
-        class="ml-5 w-75"
+        class="ml-2 w-75"
         >Register</b-button
       >
       <div class="mt-2">
