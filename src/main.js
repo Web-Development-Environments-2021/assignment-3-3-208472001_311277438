@@ -15,7 +15,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import {
   FormGroupPlugin,
+  FormDatepickerPlugin  ,
+  CalendarPlugin ,
   FormPlugin,
+  FormTimepickerPlugin ,
   FormInputPlugin,
   ButtonPlugin,
   CardPlugin,
@@ -29,8 +32,11 @@ import {
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
+  FormDatepickerPlugin  ,
+  CalendarPlugin ,
   FormPlugin,
   FormInputPlugin,
+  FormTimepickerPlugin ,
   ButtonPlugin,
   CardPlugin,
   NavbarPlugin,
@@ -70,8 +76,10 @@ Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
 
-const shared_data = {
+var shared_data = {
     username: localStorage.username,
+    lastSearch: localStorage.lastSearch,
+  
     // username: undefined,
     login(username) {
       localStorage.setItem("username", username);
@@ -82,6 +90,11 @@ const shared_data = {
       console.log("logout");
       localStorage.removeItem("username");
       this.username = undefined;
+      this.lastSearch = undefined;
+    },
+    setLastSearch(lastSearch) {
+      localStorage.setItem("lastSearch", JSON.stringify(lastSearch));
+      this.lastSearch = JSON.stringify(lastSearch);
     },
   };
 
@@ -124,4 +137,4 @@ new Vue({
     }
   },
   render: (h) => h(App)
-}).$mount("#app");
+}).$mount("#app")

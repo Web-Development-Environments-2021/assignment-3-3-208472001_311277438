@@ -18,14 +18,19 @@ const routes = [
     component: () => import("./pages/LoginPage")
   },
   {
-    path: "/CoachPage",
-    name: "CoachPage",
-    component: () => import("./pages/CoachPersonalPage")
+    path: "/PlayerPage/:playerId",
+    name: "PlayerPage",
+    component: () => import("./components/PlayerPage")
   },
   {
-    path: "/TeamPage",
-    name: "TeamPage",
-    component: () => import("./pages/TeamHomePage")
+    path: "/CoachPage/:coachId",
+    name: "CoachPage",
+    component: () => import("./components/CoachPage")
+  },
+  {
+    path: "/TeamHomePage/:teamId",
+    name: "TeamHomePage",
+    component: () => import("./components/TeamHomePage")
   },
   {
     path: "/Search",
@@ -53,10 +58,20 @@ const routes = [
     component: () => import("./pages/FavoriteGamesPage")
   },
   {
+    path: "/FavoriteTeams",
+    name: "FavoriteTeams",
+    component: () => import("./pages/FavoriteTeamsPage")
+  },
+  {
+    path: "/FavoritePlayers",
+    name: "FavoritePlayers",
+    component: () => import("./pages/FavoritePlayersPage")
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound
-  }
+  },
 ];
 
 export default routes;

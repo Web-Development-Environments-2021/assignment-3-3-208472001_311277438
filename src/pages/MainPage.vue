@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">Main Page</h1>    
+    <h1 class="title">Superliga Website</h1>    
     <div id="block_container">
     <div class="blocks"><LeagueInfo></LeagueInfo></div>
     <div class="blocks">
@@ -42,5 +42,4 @@ export default {
 .blocks{
   float: left;
 }
-
 </style>
