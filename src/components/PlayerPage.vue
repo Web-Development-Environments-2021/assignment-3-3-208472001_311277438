@@ -1,45 +1,47 @@
 <template>
   <div class="overall">
-
-    <!-- <div v-if="this.player.length==0">
-    Please enter the player id:
-    <b-input-group prepend="Id:" id="search-input">
-      <b-form-input v-model="searchQuery"></b-form-input>
-      <b-input-group-append>
-        <b-button variant="success" v-on:click="newSearch">Search</b-button>
-      </b-input-group-append>
-    </b-input-group>
-    </div> -->
-      <!-- Your search Query: {{ searchQuery }} -->
-      <div v-if="found && this.player.length!=0">
-        <h1 class="title">{{this.player.fullname }} Personal Page</h1>
-        <br>
-      <!-- My name is {{ this.player.fullname }}
-      <br> -->
-      I play in {{this.player.teamName}} team
+      <div v-if="this.player.fullname!=null">
+        <h1 class="title">{{this.player.fullname }} Page</h1>
+      </div>
       <br>
-      My position is {{ this.player.position }}
-      <br>
-      Most of the people know me as {{this.player.commonName}}
-      <br>
-      My nationality is {{this.player.nationality}}
-      <br>
-      I was born on {{this.player.birthdate}}
-      <br>
-      I was born in {{this.player.birthcountry}}
-      <br>
-      My height is {{this.player.height}}
-      <br>
-      My weight is {{this.player.weight}}
-      <br>
-      <br>
-      <img :src="this.player.image" width="10%" alt="">
+      <div v-if="this.player.teamName!=null">
+      Team Name: {{this.player.teamName}}
       </div>
 
-      <div v-if="this.player=='err'">
-      <br>
-        Sorry! There is no player with this id
+      <div v-if="this.player.position!=null">
+      Position: {{ this.player.position }}
       </div>
+
+      <div v-if="this.player.commonName!=null">
+      Common Name: {{this.player.commonName}}
+      </div>
+
+      <div v-if="this.player.nationality!=null">
+      Nationality: {{this.player.nationality}}
+      </div>
+
+      <div v-if="this.player.birthdate!=null">
+      Birth Date: {{this.player.birthdate}}
+      </div>
+
+      <div v-if="this.player.birthcountry!=null">
+      Birth Country: {{this.player.birthcountry}}
+      </div>
+
+      <div v-if="this.player.height!=null">
+      Height: {{this.player.height}}
+      </div>
+
+      <div v-if="this.player.weight!=null">
+      Weight: {{this.player.weight}}
+      </div>
+
+      <div v-if="this.player.image!=null">
+      <br>
+      <img :src="this.player.image" width="10%">
+      </div>
+      <br>
+      <b-button v-if="this.player.length!=0" variant="outline-info" @click="addToFavorite">Add to favorite players</b-button>
   </div>
   
 </template>
@@ -48,63 +50,74 @@
 export default {
 name: "PlayerPage",
 data() {
-//    this.player = {};
-//    this.search = false;
-  //  this.res = false;
-   
+  // this.player = {};
     return {
-      // searchQuery:"",
-      // player: "",
-      // res: true
+      player: "",
+
     };
   },
 props: {
-    player: {
-        required: true
-    },
-    found: {
+    playerId: {
         required: true
     },
 },
   methods: {
-    // async searchById() {
-    //   try {
-    //     const response = await this.axios.get(
-    //       `http://localhost:3000/players/playerDetails/${this.searchQuery}`,
-    //       {
+    async addToFavorite() {
+      try {
+          const response = await this.axios.post(
+          "http://localhost:3000/users/favoritePlayers",
+          {
+            playerId: this.player.playerId
+          }
+           );
+
+          alert("Player added succesfully to your favorites");
+
+      } catch(err) {
+        alert(err.request.response);
+
+      }
+
+    },
+    async redirect(id) {
+        this.wantsPersonal = true;
+      try {
   
-    //       }
-    //     );
+        const response = await this.axios.get(
+          `http://localhost:3000/players/playerDetails/${id}`,
+          {
+  
+          }
+        );
 
-    //       this.player = {
-    //         playerId: response.data.player_id,
-    //         fullname: response.data.full_name,
-    //         image: response.data.image,
-    //         position: response.data.position,
-    //         teamName: response.data.team_name,
-    //         commonName: response.data.common_name,
-    //         nationality: response.data.nationality,
-    //         birthdate: response.data.birthdate,
-    //         birthcountry: response.data.birthcountry,
-    //         height: response.data.height,
-    //         weight: response.data.weight
-    //       };
+          this.player = {
+            playerId: response.data.player_id,
+            fullname: response.data.full_name,
+            image: response.data.image,
+            position: response.data.position,
+            teamName: response.data.team_name,
+            commonName: response.data.common_name,
+            nationality: response.data.nationality,
+            birthdate: response.data.birthdate,
+            birthcountry: response.data.birthcountry,
+            height: response.data.height,
+            weight: response.data.weight
+          };
 
-    //   } catch (err) {
-    //     this.res=false;
-    //     this.player.length = 0;
-    //   }
-    // },
+          // this.$router.push({name: 'PlayerPage', params: { player: this.player} });
 
-    // newSearch() {
-    //   this.res = true;
-    //   // this.player = {};
-    //   this.searchById();
-    // }
+
+      } catch (err) {
+        this.player = "";
+      }
+    }
+
 
   },
 mounted(){
-    console.log("player page mounted")
+  console.log("player page mounted");
+  this.playerId=this.$route.params.playerId;
+  this.redirect(this.playerId);
   },
 }
 

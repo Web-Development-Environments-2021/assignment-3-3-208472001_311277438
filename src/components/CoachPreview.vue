@@ -1,19 +1,37 @@
 <template>
-  <div class="coach-preview">
-    <div :title="id" class="coach-title">
+  <!-- <div class="coach-preview">
+    <div :title="id" class="coach-title" v-if="coachId!=null">
       <b>coach Id:</b> {{ coachId }}
     </div>
     <ul class="coach-content">
-      <li> Fullname: {{ fullname }}</li>
-      <li> Team Name: {{ teamName }}</li>
+      <div v-if="fullname!=null" @click="redirect(coachId)"> <li> Fullname: {{ fullname }}</li> </div>
+      <li v-if="teamName!=null"> Team Name: {{ teamName }}</li>
+      <div v-if="image!=null" @click="redirect(coachId)">
       <img :src="image" width="40%" alt="">
+      </div>
     </ul>
+  </div> -->
+
+   <div class="card" style="width: 15rem; margin:auto;">
+  <img :src="image" @click="redirect(coachId)" v-if="image!=null" style="width: 8rem; margin:auto;" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Coach Id: {{coachId}} </h5> 
+    <p class="card-text"> <l @click="redirect(coachId)">Fullname: {{ fullname }} </l>
+      <br>
+    Team Name: {{ teamName }}</p>
   </div>
+</div>
+
 </template>
 
 <script>
 export default {
   name: "CoachPreview",
+  data(){
+    this.coach = {};
+    return {
+    }
+  },
   props: {
       coachId: {
         type: Number,
@@ -32,9 +50,15 @@ export default {
         required: true
       },
   }, 
-  mounted(){
-    console.log("coach preview mounted")
-  } 
+  methods: {
+    async redirect() {
+
+      this.$router.push({name: 'CoachPage', params: { coachId: this.coachId} });
+    }
+  },
+    mounted(){
+    console.log("coach preview mounted");
+  },
 };
 </script>
 
@@ -61,12 +85,5 @@ export default {
   width: 100%;
   overflow: hidden;
 }
-
-/* .player-preview .img{
-    max-width: 100%;
-    max-height: 100%;
-    display: block; 
-    position: relative;
-} */
 
 </style>
