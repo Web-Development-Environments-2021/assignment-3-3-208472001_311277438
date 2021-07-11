@@ -34,7 +34,11 @@
     </b-table>
     <p>
       <b-button size="sm" @click="removefromfavorites"
+<<<<<<< HEAD
         >Delete Game From Favotires</b-button
+=======
+        >Delete Dame Favotire</b-button
+>>>>>>> f45c5552fd6bc7bc88ea4619b5f30177a400af67
       >
     </p>
   </div>
