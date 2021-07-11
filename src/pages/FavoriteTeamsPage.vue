@@ -104,6 +104,10 @@ export default {
         const response = await this.axios.get(
           "http://localhost:3000/users/favoriteTeams"
         );
+        if (typeof response.data == "string"){
+          this.teams = [];
+          return;
+        }
         this.teams = [];
         for (let i = 0; i < response.data.length; i++) {
           let team = {

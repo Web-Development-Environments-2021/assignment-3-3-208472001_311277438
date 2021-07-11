@@ -1,6 +1,5 @@
 <template>
   <div id="favorites">
-    <br /><br /><br />
     <h3>Your favorite games are:</h3>
     <br /><br />
     <b-table id="table"
@@ -35,7 +34,7 @@
     </b-table>
     <p>
       <b-button size="sm" @click="removefromfavorites"
-        >Delete Dame Favotire</b-button
+        >Delete Game From Favotires</b-button
       >
     </p>
   </div>
